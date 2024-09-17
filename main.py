@@ -16,8 +16,11 @@ async def on_roll(interaction: Interaction):
     d = interaction.data.options[0]['value']
     try:
         result = dice.roll(d)
-        if len(result) > 1:
-            await interaction.send(f'{d}: **{str(result)}** (total: **{sum(result)}**)')
+        if isinstance(result, list):
+            if len(result) > 1:
+                await interaction.send(f'{d}: **{str(result)}** (total: **{sum(result)}**)')
+            else:
+                await interaction.send(f'{d}: **{str(result[0])}**')
         else:
             await interaction.send(f'{d}: **{str(result)}**')
     except dice.DiceBaseException:
